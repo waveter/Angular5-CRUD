@@ -1,4 +1,4 @@
-<p-table id="list-items" [columns]="columns" [value]="listItems" [(selection)]="selectRowTable"
+<p-table id="list-items" [columns]="columns" [value]="listItems" [(selection)]="listSelectedId"
   selectionMode="none" dataKey="id" [paginator]="true" [rows]="rowPerPage"
   lazy="true" (onLazyLoad)=handleLazyLoad($event) [totalRecords]="totalItems"
   [first]="first">  
