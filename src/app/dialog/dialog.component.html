@@ -8,7 +8,7 @@
             <input class='input-text' formControlName="userId" type="text" pInputText />
         </div>
         <div
-            *ngIf="itemSettingForm.controls['userId'].invalid && (itemSettingForm.controls['userId'].dirty || itemSettingForm.controls['userId'].touched)">
+            *ngIf="itemSettingForm.controls['userId'].invalid && (itemSettingForm.controls['userId'].dirty)">
             <span class='red-text' *ngIf="itemSettingForm.controls['userId'].errors['required']">This field is
                 required</span>
             <span class='red-text' *ngIf="itemSettingForm.controls['userId'].errors['pattern']">Please input a valid
@@ -21,7 +21,7 @@
             <input class='input-text' formControlName="title" type="text" pInputText />
         </div>
         <div
-            *ngIf="itemSettingForm.controls['title'].invalid && (itemSettingForm.controls['title'].dirty || itemSettingForm.controls['title'].touched)">
+            *ngIf="itemSettingForm.controls['title'].invalid && (itemSettingForm.controls['title'].dirty)">
             <span class='red-text' *ngIf="itemSettingForm.controls['title'].errors['required']">This field is
                 required</span>
         </div>
@@ -32,7 +32,7 @@
             <textarea class='input-text' formControlName="body" pInputTextarea></textarea>
         </div>
         <div
-            *ngIf="itemSettingForm.controls['body'].invalid && (itemSettingForm.controls['body'].dirty || itemSettingForm.controls['body'].touched)">
+            *ngIf="itemSettingForm.controls['body'].invalid && (itemSettingForm.controls['body'].dirty)">
             <span class='red-text' *ngIf="itemSettingForm.controls['body'].errors['required']">This field is
                 required</span>
         </div>
