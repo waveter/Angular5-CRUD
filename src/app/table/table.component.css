@@ -1,0 +1,16 @@
+.align-checkbox {
+    text-align: center;
+}
+
+.align-number {
+    text-align: right;
+}
+
+.align-text {
+    text-align: left;
+}
+
+.hightlight {
+    background-color: blue !important;
+    color: white !important;
+}

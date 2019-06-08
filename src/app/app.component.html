@@ -1,20 +1,61 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class='control-buttons'>
+    <button pButton type="button" class='btn' label="Create" (click)="handleClickCreateButton()"></button>
+    <button pButton type="button" class="btn ui-button-secondary" label="Edit" [disabled]="listSelectedId.length !== 1"
+        (click)="handleClickEditButton()"></button>
+    <button pButton type="button" class="btn ui-button-danger" label="Delete" [disabled]="listSelectedId.length === 0"
+        (click)="handleClickDeleteButton()"></button>
+    <button pButton type="button" class="btn right-side ui-button-info" icon="fa fa-refresh"
+        (click)="handleClickRefreshButton()"></button>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<app-table [listItems]="listItems" [totalItems]="totalItems" [listSelectedId]="listSelectedId" [first]="first"
+    (lazyLoad)="handleLoadTableData($event)"></app-table>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" [rejectLabel]="'No'"
+    [acceptLabel]="'Yes' "></p-confirmDialog>
+<ngx-loading [show]="loading"></ngx-loading>
+<p-dialog header="{{isCreate?'Create new item':'Edit the selected item'}}" [(visible)]="showDialog" [width]="600"
+    [minWidth]="200" [minY]="70" [baseZIndex]="10000" #dialog>
+    <form [formGroup]="itemSettingForm">
+        <div>
+            User ID
+        </div>
+        <div>
+            <input class='input-text' formControlName="userId" type="text" pInputText />
+        </div>
+        <div
+            *ngIf="itemSettingForm.controls['userId'].invalid && (itemSettingForm.controls['userId'].dirty || itemSettingForm.controls['userId'].touched)">
+            <span class='red-text' *ngIf="itemSettingForm.controls['userId'].errors['required']">This field is
+                required</span>
+            <span class='red-text' *ngIf="itemSettingForm.controls['userId'].errors['pattern']">Please input a valid
+                ID</span>
+        </div>
+        <div class='title-text'>
+            Title
+        </div>
+        <div>
+            <input class='input-text' formControlName="title" type="text" pInputText />
+        </div>
+        <div
+            *ngIf="itemSettingForm.controls['title'].invalid && (itemSettingForm.controls['title'].dirty || itemSettingForm.controls['title'].touched)">
+            <span class='red-text' *ngIf="itemSettingForm.controls['title'].errors['required']">This field is
+                required</span>
+        </div>
+        <div class='title-text'>
+            Body
+        </div>
+        <div>
+            <textarea class='input-text' formControlName="body" pInputTextarea></textarea>
+        </div>
+        <div
+            *ngIf="itemSettingForm.controls['body'].invalid && (itemSettingForm.controls['body'].dirty || itemSettingForm.controls['body'].touched)">
+            <span class='red-text' *ngIf="itemSettingForm.controls['body'].errors['required']">This field is
+                required</span>
+        </div>
+    </form>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="handleSubmitData()"
+            [disabled]="itemSettingForm.invalid" label="{{isCreate?'Create':'Edit'}}"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="showDialog = false" label="Cancel"
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+<p-blockUI [blocked]="showDialog"></p-blockUI>

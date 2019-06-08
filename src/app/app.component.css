@@ -1,0 +1,24 @@
+.right-side {
+    float: right;
+}
+
+.control-buttons {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    height: 2rem;
+}
+
+.input-text {
+    width: 100%;
+}
+
+.title-text {
+    margin-top: 1rem;
+}
+
+.red-text {
+    color: red;
+}
