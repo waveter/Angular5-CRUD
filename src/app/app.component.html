@@ -12,50 +12,5 @@
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" [rejectLabel]="'No'"
     [acceptLabel]="'Yes' "></p-confirmDialog>
 <ngx-loading [show]="loading"></ngx-loading>
-<p-dialog header="{{isCreate?'Create new item':'Edit the selected item'}}" [(visible)]="showDialog" [width]="600"
-    [minWidth]="200" [minY]="70" [baseZIndex]="10000" #dialog>
-    <form [formGroup]="itemSettingForm">
-        <div>
-            User ID
-        </div>
-        <div>
-            <input class='input-text' formControlName="userId" type="text" pInputText />
-        </div>
-        <div
-            *ngIf="itemSettingForm.controls['userId'].invalid && (itemSettingForm.controls['userId'].dirty || itemSettingForm.controls['userId'].touched)">
-            <span class='red-text' *ngIf="itemSettingForm.controls['userId'].errors['required']">This field is
-                required</span>
-            <span class='red-text' *ngIf="itemSettingForm.controls['userId'].errors['pattern']">Please input a valid
-                ID</span>
-        </div>
-        <div class='title-text'>
-            Title
-        </div>
-        <div>
-            <input class='input-text' formControlName="title" type="text" pInputText />
-        </div>
-        <div
-            *ngIf="itemSettingForm.controls['title'].invalid && (itemSettingForm.controls['title'].dirty || itemSettingForm.controls['title'].touched)">
-            <span class='red-text' *ngIf="itemSettingForm.controls['title'].errors['required']">This field is
-                required</span>
-        </div>
-        <div class='title-text'>
-            Body
-        </div>
-        <div>
-            <textarea class='input-text' formControlName="body" pInputTextarea></textarea>
-        </div>
-        <div
-            *ngIf="itemSettingForm.controls['body'].invalid && (itemSettingForm.controls['body'].dirty || itemSettingForm.controls['body'].touched)">
-            <span class='red-text' *ngIf="itemSettingForm.controls['body'].errors['required']">This field is
-                required</span>
-        </div>
-    </form>
-    <p-footer>
-        <button type="button" pButton icon="pi pi-check" (click)="handleSubmitData()"
-            [disabled]="itemSettingForm.invalid" label="{{isCreate?'Create':'Edit'}}"></button>
-        <button type="button" pButton icon="pi pi-close" (click)="showDialog = false" label="Cancel"
-            class="ui-button-secondary"></button>
-    </p-footer>
-</p-dialog>
-<p-blockUI [blocked]="showDialog"></p-blockUI>
+<app-dialog [showDialog]="showDialog" [isCreate]="isCreate" [selectedItem]="selectedItem" 
+(clickSubmit)="handleClickSubmit($event)"></app-dialog>

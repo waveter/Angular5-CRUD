@@ -1,8 +1,7 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { BackendApiService } from './_services/backend-api.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ConfirmationService } from 'primeng/api';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { BackendApiService } from './_services/backend-api.service';
 
 @Component({
   selector: 'app-root',
@@ -24,21 +23,18 @@ export class AppComponent {
   displayState: any = {};
   // List of id of selected items
   listSelectedId: any = [];
-  // The form group to add or edit item
-  itemSettingForm: FormGroup;
+
   // Index of first item of the table
   first = 0;
 
+  // Selected item
+  selectedItem: any = {};
+
   constructor(private backendApiService: BackendApiService,
     private toastr: ToastsManager, private vcr: ViewContainerRef,
-    private confirmService: ConfirmationService,
-    private formBuilder: FormBuilder) {
+    private confirmService: ConfirmationService
+  ) {
     this.toastr.setRootViewContainerRef(vcr);
-    this.itemSettingForm = this.formBuilder.group({
-      'userId': new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9]*$')])),
-      'title': new FormControl('', Validators.compose([Validators.required])),
-      'body': new FormControl('', Validators.compose([Validators.required])),
-    });
   }
 
   /**
@@ -49,7 +45,7 @@ export class AppComponent {
     this.listSelectedId = [];
     this.listItems.forEach(item => {
       item.checked = false;
-    })
+    });
     this.displayState = event;
     this.loading = true;
     this.backendApiService.getDataList(event.page, event.limit).subscribe((res) => {
@@ -94,7 +90,7 @@ export class AppComponent {
     for (const selectedId of this.listSelectedId) {
       this.backendApiService.deleteItem(selectedId).subscribe((res) => {
         this.loading = false;
-        this.toastr.success('Delete item ' + String(selectedId) +  ' successfully');
+        this.toastr.success('Delete item ' + String(selectedId) + ' successfully');
         totalResponse += 1;
         if (totalResponse === this.listSelectedId.length) {
           this.handleRefreshPage();
@@ -115,30 +111,20 @@ export class AppComponent {
   }
 
   handleClickCreateButton() {
+    this.selectedItem = {};
     this.isCreate = true;
     this.showDialog = true;
-    this.itemSettingForm = this.formBuilder.group({
-      'userId': new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9]*$')])),
-      'title': new FormControl('', Validators.compose([Validators.required])),
-      'body': new FormControl('', Validators.compose([Validators.required])),
-    });
+
   }
 
   handleClickEditButton() {
+    this.selectedItem = this.listItems.find((item) => item.id === this.listSelectedId[0]);
     this.isCreate = false;
     this.showDialog = true;
-    const selectedItem = this.listItems.find((item) => item.id === this.listSelectedId[0]);
-    this.itemSettingForm = this.formBuilder.group({
-      'userId': new FormControl(selectedItem.userId, Validators.compose([Validators.required, Validators.pattern('^[0-9]*$')])),
-      'title': new FormControl(selectedItem.title, Validators.compose([Validators.required])),
-      'body': new FormControl(selectedItem.body, Validators.compose([Validators.required])),
-    });
   }
 
-  handleSubmitData() {
-    this.showDialog = false;
+  handleClickSubmit(itemData) {
     this.loading = true;
-    const itemData = this.itemSettingForm.value;
     if (this.isCreate) {
       this.backendApiService.addItem(itemData).subscribe((res) => {
         this.toastr.success('Create new item successfully');

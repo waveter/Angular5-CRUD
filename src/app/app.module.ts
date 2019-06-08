@@ -17,11 +17,13 @@ import {ConfirmationService} from 'primeng/api';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {BlockUIModule} from 'primeng/blockui';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TableComponent
+    TableComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
