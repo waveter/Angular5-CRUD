@@ -15,6 +15,7 @@ export class DialogComponent implements OnChanges {
   // The selected item, which will be shown in screen in case of edit item
   @Input() selectedItem: any;
 
+  // This event will be emitted in case the Create/Edit buttons is clicked
   @Output() clickSubmit: EventEmitter<any>;
 
   // The form group to add or edit item
@@ -29,6 +30,7 @@ export class DialogComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // If the isCreate variable changed, update value of itemSettingForm variable
     if (changes.isCreate) {
       if (this.isCreate) {
         this.itemSettingForm = this.formBuilder.group({
@@ -46,8 +48,13 @@ export class DialogComponent implements OnChanges {
     }
   }
 
+  /**
+   * Handle the event when user click Create/Edit buttons
+   */
   handleClickSubmit() {
+    // Hide the dialog
     this.showDialog = false;
+    // Get the data to emit event to the parent component (AppComponent)
     const itemData = this.itemSettingForm.value;
     this.clickSubmit.emit(itemData);
   }

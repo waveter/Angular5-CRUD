@@ -16,7 +16,8 @@ export class TableComponent implements OnInit, OnChanges {
   // Index of first item
   @Input() first: number;
 
-  @Output() lazyLoad: EventEmitter<any>;
+  // This event will be emitted when user change page or page size
+  @Output() loadPage: EventEmitter<any>;
 
   // Headers of table
   columns = [
@@ -27,21 +28,27 @@ export class TableComponent implements OnInit, OnChanges {
     { name: 'Body', key: 'body', type: 'text', width: '50%' }
   ];
 
+  // Options to select page size
   pageSizeOptions = [
     {label: '5 items per page', value: 5},
     {label: '10 items per page', value: 10},
     {label: '20 items per page', value: 20},
     {label: '50 items per page', value: 50},
     {label: '100 items per page', value: 100}
-  ]
+  ];
+
+  // The selected page size
   pageSize: number;
 
   // When user click at a row of table, the clicked position can be in inside or ouside of a checkbox.
   // This variable is true if user click at the checkbox
   checkBoxClicked = false;
+
+  // State (check or uncheck) of the select all checkbox
   isSelectedAll: boolean;
+
   constructor() {
-    this.lazyLoad = new EventEmitter<any>();
+    this.loadPage = new EventEmitter<any>();
     this.pageSize = this.pageSizeOptions[0].value;
   }
 
@@ -55,7 +62,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    // In case content of table is changed, set select all checkbox to be unselect
     if (changes.listSelectedId) {
       this.isSelectedAll = false;
     }
@@ -158,16 +165,20 @@ export class TableComponent implements OnInit, OnChanges {
    * Handle event when each page of table is loaded (When load website or user change page of table)
    * @param event LazyLoadEvent, the event contains information of the index of first element of the page
    */
-  handleLazyLoad(event) {
+  handleLazyLoad(event: any) {
     // When change page, all item is unselected
     this.isSelectedAll = false;
     const start = event.first;
     // Calculate page number (start from 1) based on index of first element
     const page = start / this.pageSize + 1;
-    this.lazyLoad.emit({page: page, limit: this.pageSize});
+    this.loadPage.emit({page: page, limit: this.pageSize});
   }
 
-  handleChangePageSize(event) {
-    this.lazyLoad.emit({page: 1, limit: event.value});
+  /**
+   * Handle event when user change page size by the dropdown list
+   * @param event Contains information of the selected page size
+   */
+  handleChangePageSize(event: any) {
+    this.loadPage.emit({page: 1, limit: event.value});
   }
 }

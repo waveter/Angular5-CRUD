@@ -72,10 +72,15 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Handle event when user click refresh button
+   */
   handleClickRefreshButton() {
     this.handleLoadTableData(this.displayState);
   }
-
+/**
+ * Handle event when user click delete button
+ */
   handleClickDeleteButton() {
     this.confirmService.confirm({
       message: 'Do you want to delete the selected items?',
@@ -85,6 +90,10 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Delete selected item(s)
+   * Send request to delete each item parallel, then refresh the page after receiving response from all request
+   */
   deleteItems() {
     let totalResponse = 0;
     this.loading = true;
@@ -106,11 +115,17 @@ export class AppComponent {
     }
   }
 
+  /**
+   * The method will be called to refresh data (after Create/Edit/Delete item(s), it needs to refresh data)
+   */
   handleRefreshPage() {
     this.loading = false;
     this.handleLoadTableData(this.displayState);
   }
 
+  /**
+   * Handle event when user click Create button
+   */
   handleClickCreateButton() {
     this.selectedItem = {};
     this.isCreate = true;
@@ -118,15 +133,23 @@ export class AppComponent {
 
   }
 
+  /**
+   * Handle event when user click Edit button
+   */
   handleClickEditButton() {
     this.selectedItem = this.listItems.find((item) => item.id === this.listSelectedId[0]);
     this.isCreate = false;
     this.showDialog = true;
   }
 
+  /**
+   * Handle event when the Create/Edit buttons is clicked
+   * @param itemData the json object which is get from user input (in dialog)
+   */
   handleClickSubmit(itemData) {
     this.loading = true;
     if (this.isCreate) {
+      // Send request to add new item
       this.backendApiService.addItem(itemData).subscribe((res) => {
         this.toastr.success('Create new item successfully');
         this.handleRefreshPage();
@@ -136,6 +159,7 @@ export class AppComponent {
       });
     } else {
       const selectedId = this.listSelectedId[0];
+      // Send request to update item
       this.backendApiService.updateItem(selectedId, itemData).subscribe((res) => {
         this.toastr.success('Edit item ' + String(selectedId) + ' successfully');
         this.handleRefreshPage();

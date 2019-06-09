@@ -8,7 +8,7 @@
         (click)="handleClickRefreshButton()"></button>
 </div>
 <app-table [listItems]="listItems" [totalItems]="totalItems" [listSelectedId]="listSelectedId" [first]="first"
-    (lazyLoad)="handleLoadTableData($event)"></app-table>
+    (loadPage)="handleLoadTableData($event)"></app-table>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" [rejectLabel]="'No'"
     [acceptLabel]="'Yes' "></p-confirmDialog>
 <ngx-loading [show]="loading"></ngx-loading>

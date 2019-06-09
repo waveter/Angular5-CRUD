@@ -41,12 +41,33 @@ Backend resource: https://jsonplaceholder.typicode.com/
 	|- TableComponent
 	|- DialogComponent
 
-3. Directory structure
+TableComponent: 
+	+ The component is a table to show the data
+	+ Input:
+		- listItems: List items which are displayed in the screen (only for current page, not all data)
+		- listSelectedId: List ids of selected items
+		- totalItems: Total number of all items (all data)
+		- first: offset of index in each page (for example: page 1, first = 0; page 2, first = 10 if page size = 10
+	+ Output:
+		- loadPage({page: page_number, limit: page_size}): This event will be emitted in case user change page or change page size
+	
+DialogComponent: 
+	+ The component is a dialog to show add or edit item
+	+ Input:
+		- showDialog: The boolean variable is used to show/hide the dialog
+		- isCreate: The boolean variable to indistingust between create item dialog or edit item dialog
+		- selectedItem: The selected item object
+	+ Output:
+		- clickSubmit({userId: user_id, title: title, body: body}): This event will be emitted in case the submit (Create/Edit) button is clicked
+	
+AppComponent: 
+	+ This is the root components, which is parent component of TableComponent and DialogComponent
+	+ This component handle events when user click create/edit/delete/refresh buttons
 
-4. Todo
+3. Todo
 - Sort by each column
 - Logger
 
-5. Limitation
+4. Limitation
 - Not show detail error
 
