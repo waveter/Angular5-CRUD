@@ -37,10 +37,6 @@ Backend resource: https://jsonplaceholder.typicode.com/
 	+ Show loading icon, block screen in case of waiting for response from backend
 	
 2. Component structure
-- AppComponent
-	|- TableComponent
-	|- DialogComponent
-
 TableComponent: 
 	+ The component is a table to show the data
 	+ Input:
