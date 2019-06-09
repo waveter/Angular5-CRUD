@@ -37,7 +37,7 @@ Backend resource: https://jsonplaceholder.typicode.com/
 	+ Show loading icon, block screen in case of waiting for response from backend
 	
 2. Component structure
-TableComponent: 
+- TableComponent: 
 	+ The component is a table to show the data
 	+ Input:
 		- listItems: List items which are displayed in the screen (only for current page, not all data)
@@ -47,7 +47,7 @@ TableComponent:
 	+ Output:
 		- loadPage({page: page_number, limit: page_size}): This event will be emitted in case user change page or change page size
 	
-DialogComponent: 
+- DialogComponent: 
 	+ The component is a dialog to show add or edit item
 	+ Input:
 		- showDialog: The boolean variable is used to show/hide the dialog
@@ -56,7 +56,7 @@ DialogComponent:
 	+ Output:
 		- clickSubmit({userId: user_id, title: title, body: body}): This event will be emitted in case the submit (Create/Edit) button is clicked
 	
-AppComponent: 
+- AppComponent: 
 	+ This is the root components, which is parent component of TableComponent and DialogComponent
 	+ This component handle events when user click create/edit/delete/refresh buttons
 
