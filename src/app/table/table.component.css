@@ -14,3 +14,21 @@
     background-color: blue !important;
     color: white !important;
 }
+
+.footer-container {
+    position: relative;
+}
+
+.page-size {
+    position: absolute;
+    top: -2em;
+    left: 1em;
+}
+
+.sumary-info {
+    font-family: Roboto, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    position: absolute;
+    top: -1.6em;
+    right: 1em;
+}

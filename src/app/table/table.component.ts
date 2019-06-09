@@ -26,7 +26,15 @@ export class TableComponent implements OnInit, OnChanges {
     { name: 'Title', key: 'title', type: 'text', width: '25%' },
     { name: 'Body', key: 'body', type: 'text', width: '50%' }
   ];
-  rowPerPage = 10;
+
+  pageSizeOptions = [
+    {label: '5 items per page', value: 5},
+    {label: '10 items per page', value: 10},
+    {label: '20 items per page', value: 20},
+    {label: '50 items per page', value: 50},
+    {label: '100 items per page', value: 100}
+  ]
+  pageSize: number;
 
   // When user click at a row of table, the clicked position can be in inside or ouside of a checkbox.
   // This variable is true if user click at the checkbox
@@ -34,6 +42,7 @@ export class TableComponent implements OnInit, OnChanges {
   isSelectedAll: boolean;
   constructor() {
     this.lazyLoad = new EventEmitter<any>();
+    this.pageSize = this.pageSizeOptions[0].value;
   }
 
   ngOnInit() {
@@ -96,7 +105,7 @@ export class TableComponent implements OnInit, OnChanges {
         // If the clicked row is unselected, add the row to the selected list
         this.listSelectedId.push(clickedId);
         this.listItems[rowIndex].checked = true;
-        if (this.listSelectedId.length === this.rowPerPage) {
+        if (this.listSelectedId.length === this.pageSize) {
           this.isSelectedAll = true;
         }
       } else {
@@ -154,7 +163,11 @@ export class TableComponent implements OnInit, OnChanges {
     this.isSelectedAll = false;
     const start = event.first;
     // Calculate page number (start from 1) based on index of first element
-    const page = start / this.rowPerPage + 1;
-    this.lazyLoad.emit({page: page, limit: this.rowPerPage});
+    const page = start / this.pageSize + 1;
+    this.lazyLoad.emit({page: page, limit: this.pageSize});
+  }
+
+  handleChangePageSize(event) {
+    this.lazyLoad.emit({page: 1, limit: event.value});
   }
 }

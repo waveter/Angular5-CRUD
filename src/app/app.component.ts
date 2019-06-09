@@ -42,6 +42,7 @@ export class AppComponent {
    * @param event {page: pageNumber, limit: number of item on a page}
    */
   handleLoadTableData(event: any) {
+    this.first = (event.page - 1) * event.limit;
     this.listSelectedId = [];
     this.listItems.forEach(item => {
       item.checked = false;

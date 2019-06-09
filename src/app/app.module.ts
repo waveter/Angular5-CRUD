@@ -18,6 +18,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {BlockUIModule} from 'primeng/blockui';
 import { DialogComponent } from './dialog/dialog.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { DialogComponent } from './dialog/dialog.component';
     DialogModule,
     InputTextModule,
     InputTextareaModule,
-    BlockUIModule
+    BlockUIModule,
+    DropdownModule
   ],
   providers: [BackendApiService,
     ConfirmationService],
